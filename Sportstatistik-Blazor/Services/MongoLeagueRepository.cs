@@ -33,4 +33,18 @@ public class MongoLeagueRepository(SportDatabase database) : ILeagueRepository
 
     public void DeleteMatch(ObjectId id) =>
         database.Matches.DeleteOne(match => match.Id == id);
+
+    public List<Position> GetAllPositions() =>
+        database.Positions.Find(Builders<Position>.Filter.Empty).ToList();
+
+    public void AddPosition(Position position) =>
+        database.Positions.InsertOne(position);
+
+    public void DeletePosition(ObjectId id) =>
+        database.Positions.DeleteOne(position => position.Id == id);
+
+    public void MovePlayersToPosition(string fromPosition, string toPosition) =>
+        database.Players.UpdateMany(
+            player => player.Position == fromPosition,
+            Builders<Player>.Update.Set(player => player.Position, toPosition));
 }

@@ -11,6 +11,7 @@ namespace Sportstatistik.Services;
 /// </summary>
 public class InMemoryLeagueRepository : ILeagueRepository
 {
+    private readonly List<Position> _positions = new();
     private readonly List<Team> _teams = new();
     private readonly List<Player> _players = new();
     private readonly List<Match> _matches = new();
@@ -69,6 +70,28 @@ public class InMemoryLeagueRepository : ILeagueRepository
 
     public void DeleteMatch(ObjectId id) =>
     _matches.RemoveAll(match => match.Id == id);
+    
+    public List<Position> GetAllPositions() => _positions.ToList();
+
+    public void AddPosition(Position position)
+    {
+        if (position.Id == ObjectId.Empty)
+        {
+            position.Id = ObjectId.GenerateNewId();
+        }
+        _positions.Add(position);
+    }
+
+    public void DeletePosition(ObjectId id) =>
+        _positions.RemoveAll(position => position.Id == id);
+
+    public void MovePlayersToPosition(string fromPosition, string toPosition)
+    {
+        foreach (var player in _players.Where(player => player.Position == fromPosition))
+        {
+            player.Position = toPosition;
+        }
+    }
 
     // Exempeldata, så att det finns något att titta på direkt.
     // Er riktiga databas ska seeda sig själv på samma sätt vid första start, om den är tom.

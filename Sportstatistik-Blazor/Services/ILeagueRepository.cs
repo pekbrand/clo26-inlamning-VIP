@@ -20,5 +20,8 @@ void AddTeam(Team team);
     void AddMatch(Match match);
     void DeleteMatch(ObjectId id);
 
-    // Du behöver bygga ut detta mer: metoder för positioner och truppgränser när ni sparar dem i databasen.
+    List<Position> GetAllPositions();
+    void AddPosition(Position position);
+    void DeletePosition(ObjectId id);
+    void MovePlayersToPosition(string fromPosition, string toPosition);
 }

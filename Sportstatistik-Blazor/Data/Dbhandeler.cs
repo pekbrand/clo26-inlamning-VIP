@@ -28,4 +28,7 @@ public sealed class SportDatabase
 
     public IMongoCollection<Match> Matches =>
         _database.GetCollection<Match>("matches");
+
+    public IMongoCollection<Position> Positions =>
+        _database.GetCollection<Position>("positions");
 }
